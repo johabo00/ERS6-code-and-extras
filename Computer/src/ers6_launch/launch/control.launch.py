@@ -11,9 +11,9 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "use_mock_hardware", 
+            "use_hardware", 
             default_value="true",
-            description="Use mock hardware system"
+            description="Use hardware system"
         )
     )
 
