@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<robot name="ers6" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Optional properties for mesh scale and material reuse -->
+  <xacro:property name="mesh_scale" value="0.001 0.001 0.001"/>
+
+  <!-- Include modular link/joint definitions (could be broken into multiple files later) -->
+
+  <link name="world" />
+
+  <joint name="world_to_base_link" type="fixed">
+    <parent link="world" />
+    <child link="base_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <!-- === base_link === -->
+  <xacro:macro name="link_with_mesh" params="link_name mesh_file origin_xyz origin_rpy color_rgba">
+    <link name="${link_name}">
+      <visual>
+        <origin xyz="${origin_xyz}" rpy="${origin_rpy}" />
+        <geometry>
+          <mesh filename="${mesh_file}" scale="${mesh_scale}" />
+        </geometry>
+        <material name="${link_name}-material">
+          <color rgba="${color_rgba}" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="${origin_xyz}" rpy="${origin_rpy}" />
+        <geometry>
+          <mesh filename="${mesh_file}" scale="${mesh_scale}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="${origin_xyz}" rpy="${origin_rpy}" />
+        <mass value="1" />
+        <inertia ixx="0.4" ixy="0" ixz="0" iyy="0.4" iyz="0" izz="0.4" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <xacro:link_with_mesh 
+    link_name="base_link"
+    mesh_file="package://ers6_description/meshes/Base.stl"
+    origin_xyz="0 0 0"
+    origin_rpy="0 0 0"
+    color_rgba="0.0762 0.0003 0.3613 1"/>
+
+  <joint name="base_link_to_a5" type="revolute">
+    <parent link="base_link" />
+    <child link="a5" />
+    <origin xyz="0.0 0.0005 0.0732" rpy="0 0 0" />
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="-1" upper="1" velocity="0.5"/>
+  </joint>
+
+  <xacro:link_with_mesh 
+    link_name="a5"
+    mesh_file="package://ers6_description/meshes/a5.stl"
+    origin_xyz="0.0002 0.0 -0.0037"
+    origin_rpy="0 0 0"
+    color_rgba="0.2232 0.1441 1 1"/>
+
+  <joint name="a5_to_a4" type="revolute">
+    <parent link="a5" />
+    <child link="a4" />
+    <origin xyz="0.1692 0.0 0.0620" rpy="0 0 1.5708" />
+    <axis xyz="0.0 -1.0 -0.0018"/>
+    <limit effort="1000.0" lower="-1" upper="1" velocity="0.5"/>
+  </joint>
+
+  <xacro:link_with_mesh 
+    link_name="a4"
+    mesh_file="package://ers6_description/meshes/a4.stl"
+    origin_xyz="0 0 0"
+    origin_rpy="0 0 0"
+    color_rgba="0.3564 0.6583 0.0742 1"/>
+
+  <joint name="a4_to_a3" type="revolute">
+    <parent link="a4" />
+    <child link="a3" />
+    <origin xyz="0 0.1685 0.20" rpy="0 0 3.141592653589793" />
+    <axis xyz="0.0 -1.0 0.0032"/>
+    <limit effort="1000.0" lower="-1" upper="1" velocity="0.5"/>
+  </joint>
+
+  <xacro:link_with_mesh 
+    link_name="a3"
+    mesh_file="package://ers6_description/meshes/a3.stl"
+    origin_xyz="0.0 0.0 0.0372"
+    origin_rpy="0 0 0"
+    color_rgba="0.855 0.04971 0.0497 1"/>
+
+  <joint name="a3_to_a2" type="revolute">
+    <parent link="a3" />
+    <child link="a2" />
+    <origin xyz="0.0005 -0.0006 0.0331" rpy="0 0 0" />
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="-1" upper="1" velocity="0.5"/>
+  </joint>
+
+  <xacro:link_with_mesh 
+    link_name="a2"
+    mesh_file="package://ers6_description/meshes/a2.stl"
+    origin_xyz="-0.0159 -0.03442 0"
+    origin_rpy="0 0 0"
+    color_rgba="0.6376 0.6724 0.8796 1"/>
+
+  <joint name="a2_to_a1" type="revolute">
+    <parent link="a2" />
+    <child link="a1" />
+    <origin xyz="-0.0004 0.0001 0.1682" rpy="0 0 3.141592653589793" />
+    <axis xyz="0.0 1.0 0.0041"/>
+    <limit effort="1000.0" lower="-1" upper="1" velocity="0.5"/>
+  </joint>
+
+  <xacro:link_with_mesh 
+    link_name="a1"
+    mesh_file="package://ers6_description/meshes/a1.stl"
+    origin_xyz="-0.0004 -0.0005 0.0243"
+    origin_rpy="0 0 0"
+    color_rgba="0.1981 0.4287 0.0152 1"/>
+
+  <joint name="a1_to_a0" type="revolute">
+    <parent link="a1" />
+    <child link="a0" />
+    <origin xyz="0.0 -0.0004 0.0279" rpy="0 0 -1.5707963267948961" />
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="-1" upper="1" velocity="0.5"/>
+  </joint>
+
+  <xacro:link_with_mesh 
+    link_name="a0"
+    mesh_file="package://ers6_description/meshes/a0.stl"
+    origin_xyz="0 0 0"
+    origin_rpy="0 0 0"
+    color_rgba="0.3095 0.0015 0.3515 1"/>
+
+</robot>
